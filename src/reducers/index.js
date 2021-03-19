@@ -1,8 +1,49 @@
+import {DATA_LOADING, DATA_SUCCESS, DATA_ERR, ADD_SMURF, SET_FORM_ERR} from '../actions'
+
 
 export const initialState = {
+    smurfs : [],
+    loading: false,
+    error: '',
+    formError: null,
+    errorMessage: 'Name, Nickname, and Position are required fields',
 }
 
-const reducer = ()=>{
+const reducer = (state = initialState, action)=>{
+    switch(action.type){
+        case DATA_LOADING:
+            return({
+                ...state,
+                loading: true
+            });
+        case DATA_SUCCESS:
+            return({
+                ...state,
+                loading:false,
+                smurfs: action.payload,
+                error: '',
+            })
+        case DATA_ERR: 
+            return({
+                ...state,
+                loading:false,
+                error: 'There was an error',
+            })
+        case ADD_SMURF: 
+            return({
+                ...state,
+                smurfs: [...state.smurfs, action.payload]
+            })
+        case SET_FORM_ERR: 
+            return{
+                ...state,
+                formError: action.payload
+
+            }
+        default:
+            return state
+    }
+
 }
 
 export default reducer;
